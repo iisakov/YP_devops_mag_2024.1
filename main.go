@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
 
 func main() {
-	fmt.Println("test v0.0.1")
+	r, err := http.Get("srv.msk01.gigacorp.local/_stats")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(r)
 }
