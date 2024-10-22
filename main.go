@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -45,6 +46,8 @@ func main() {
 			errCount++
 			fmt.Println(err)
 		}
+		defer resp.Body.Close()
+
 		if resp.StatusCode != http.StatusOK {
 			errCount++
 			fmt.Printf("failed to send request %s\n", err)
@@ -59,5 +62,6 @@ func main() {
 		fmt.Println(ss)
 		ssl = append(ssl, ss)
 	}
+	log.Default().Fatalln("sss", ssl)
 	fmt.Println(ssl)
 }
