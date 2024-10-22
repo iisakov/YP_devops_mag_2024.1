@@ -102,7 +102,7 @@ type ServerStatsList []ServerStats
 
 func main() {
 	c := http.Client{}
-	ssl := ServerStatsList{}
+	// ssl := ServerStatsList{}
 	errCount := 0
 	for i := 0; i < 100; i++ {
 		resp, err := c.Get(ServerURL)
@@ -124,7 +124,19 @@ func main() {
 		}
 		ss := makeServerStats(strings.Split(string(body), ","), ServerStats{})
 		// fmt.Println(ss)
-		ssl = append(ssl, ss)
+		// ssl = append(ssl, ss)
+		serr, ok := ss.checkMemoryUsagePercent()
+		if !ok {
+			fmt.Println(serr)
+		}
+		serr, ok = ss.checkAvailableSpace()
+		if !ok {
+			fmt.Println(serr)
+		}
+		serr, ok = ss.checkavAilableBandwidth()
+		if !ok {
+			fmt.Println(serr)
+		}
 	}
 	// ss := makeServerStats(strings.Split("11,4915402826,1712029496,423323774247,409739069884,2482309012,365544533", ","), ServerStats{})
 	// ss := makeServerStats(strings.Split("3,4915402826,2200880953,423323774247,113519465486,2482309012,403665858", ","), ServerStats{})
@@ -133,19 +145,7 @@ func main() {
 	// ssl = append(ssl, ss)
 	// fmt.Println(ssl)
 
-	for _, v := range ssl {
-		err, ok := v.checkMemoryUsagePercent()
-		if !ok {
-			fmt.Println(err)
-		}
-		err, ok = v.checkAvailableSpace()
-		if !ok {
-			fmt.Println(err)
-		}
-		err, ok = v.checkavAilableBandwidth()
-		if !ok {
-			fmt.Println(err)
-		}
-	}
+	// for _, v := range ssl {
 
+	// }
 }
