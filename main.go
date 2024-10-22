@@ -123,7 +123,7 @@ func main() {
 			continue
 		}
 		ss := makeServerStats(strings.Split(string(body), ","), ServerStats{})
-		fmt.Println(ss)
+		// fmt.Println(ss)
 		ssl = append(ssl, ss)
 	}
 	// ss := makeServerStats(strings.Split("11,4915402826,1712029496,423323774247,409739069884,2482309012,365544533", ","), ServerStats{})
