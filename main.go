@@ -136,15 +136,15 @@ func main() {
 	for _, v := range ssl {
 		err, ok := v.checkMemoryUsagePercent()
 		if !ok {
-			println(err)
+			fmt.Println(err)
 		}
 		err, ok = v.checkAvailableSpace()
 		if !ok {
-			println(err)
+			fmt.Println(err)
 		}
 		err, ok = v.checkavAilableBandwidth()
 		if !ok {
-			println(err)
+			fmt.Println(err)
 		}
 	}
 
