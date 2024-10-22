@@ -104,7 +104,7 @@ func main() {
 	c := http.Client{}
 	ssl := ServerStatsList{}
 	errCount := 0
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 100; i++ {
 		resp, err := c.Get(ServerURL)
 		if err != nil {
 			errCount++
