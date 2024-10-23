@@ -120,7 +120,6 @@ func main() {
 		if err != nil {
 			errCount++
 			fmt.Printf("failed to parse response %s\n", err)
-			continue
 		}
 		ss := makeServerStats(strings.Split(string(body), ","), ServerStats{})
 		// fmt.Println(ss)
@@ -141,11 +140,5 @@ func main() {
 	// ss := makeServerStats(strings.Split("11,4915402826,1712029496,423323774247,409739069884,2482309012,365544533", ","), ServerStats{})
 	// ss := makeServerStats(strings.Split("3,4915402826,2200880953,423323774247,113519465486,2482309012,403665858", ","), ServerStats{})
 	// ss := makeServerStats(strings.Split("83,4915402826,4915402826,423323774247,397994209170,2482309012,554186051", ","), ServerStats{})
-	// fmt.Println(ss)
-	// ssl = append(ssl, ss)
-	// fmt.Println(ssl)
 
-	// for _, v := range ssl {
-
-	// }
 }
