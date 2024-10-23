@@ -78,6 +78,15 @@ func (ss ServerStats) checkMemoryUsagePercent() (err string, ok bool) {
 	return
 }
 
+func (ss ServerStats) checkloadThreshold() (err string, ok bool) {
+	ok = true
+	if ss.LoadAverage > LoadThreshold {
+		err = fmt.Sprintf("Load Average is too high: %d", ss.LoadAverage)
+		ok = false
+	}
+	return
+}
+
 func (ss ServerStats) checkAvailableSpace() (err string, ok bool) {
 	ok = true
 	if ss.diskUsagePercent > DiskThreshold {
@@ -93,15 +102,6 @@ func (ss ServerStats) checkAvailableBandwidth() (err string, ok bool) {
 	if ss.networkUsagePercent > NetworkThreshold {
 		availableBandwidth := (ss.NetworkCapacity - ss.NetworkUsage) / 1000 / 1000
 		err = fmt.Sprintf("Network bandwidth usage high: %d Mbit/s available", availableBandwidth)
-		ok = false
-	}
-	return
-}
-
-func (ss ServerStats) checkloadThreshold() (err string, ok bool) {
-	ok = true
-	if ss.LoadAverage > LoadThreshold {
-		err = fmt.Sprintf("Load Average is too high: %d", ss.LoadAverage)
 		ok = false
 	}
 	return
@@ -135,7 +135,11 @@ func main() {
 		ss := makeServerStats(strings.Split(string(body), ","), ServerStats{})
 		// fmt.Println(ss)
 		// ssl = append(ssl, ss)
-		serr, ok := ss.checkMemoryUsagePercent()
+		serr, ok := ss.checkloadThreshold()
+		if !ok {
+			fmt.Println(serr)
+		}
+		serr, ok = ss.checkMemoryUsagePercent()
 		if !ok {
 			fmt.Println(serr)
 		}
@@ -147,10 +151,7 @@ func main() {
 		if !ok {
 			fmt.Println(serr)
 		}
-		serr, ok = ss.checkloadThreshold()
-		if !ok {
-			fmt.Println(serr)
-		}
+
 	}
 	// ss := makeServerStats(strings.Split("11,4915402826,1712029496,423323774247,409739069884,2482309012,365544533", ","), ServerStats{})
 	// ss := makeServerStats(strings.Split("3,4915402826,2200880953,423323774247,113519465486,2482309012,403665858", ","), ServerStats{})
