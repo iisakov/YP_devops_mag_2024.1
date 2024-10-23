@@ -101,7 +101,7 @@ func (ss ServerStats) checkAvailableBandwidth() (err string, ok bool) {
 func (ss ServerStats) checkloadThreshold() (err string, ok bool) {
 	ok = true
 	if ss.LoadAverage > LoadThreshold {
-		fmt.Printf("Load Average is too high: %d\n", ss.LoadAverage)
+		err = fmt.Sprintf("Load Average is too high: %d", ss.LoadAverage)
 		ok = false
 	}
 	return
