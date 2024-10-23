@@ -88,11 +88,20 @@ func (ss ServerStats) checkAvailableSpace() (err string, ok bool) {
 	return
 }
 
-func (ss ServerStats) checkavAilableBandwidth() (err string, ok bool) {
+func (ss ServerStats) checkAvailableBandwidth() (err string, ok bool) {
 	ok = true
 	if ss.networkUsagePercent > NetworkThreshold {
 		availableBandwidth := (ss.NetworkCapacity - ss.NetworkUsage) / 1000 / 1000
 		err = fmt.Sprintf("Network bandwidth usage high: %d Mbit/s available", availableBandwidth)
+		ok = false
+	}
+	return
+}
+
+func (ss ServerStats) checkloadThreshold() (err string, ok bool) {
+	ok = true
+	if ss.LoadAverage > LoadThreshold {
+		fmt.Printf("Load Average is too high: %d\n", ss.LoadAverage)
 		ok = false
 	}
 	return
@@ -134,7 +143,11 @@ func main() {
 		if !ok {
 			fmt.Println(serr)
 		}
-		serr, ok = ss.checkavAilableBandwidth()
+		serr, ok = ss.checkAvailableBandwidth()
+		if !ok {
+			fmt.Println(serr)
+		}
+		serr, ok = ss.checkloadThreshold()
 		if !ok {
 			fmt.Println(serr)
 		}
