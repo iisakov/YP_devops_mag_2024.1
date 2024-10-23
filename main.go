@@ -114,7 +114,7 @@ func main() {
 
 		if resp.StatusCode != http.StatusOK {
 			errCount++
-			fmt.Printf("failed to send request %s\n", err)
+			fmt.Println("failed to send request")
 			continue
 		}
 		body, err := io.ReadAll(resp.Body)
