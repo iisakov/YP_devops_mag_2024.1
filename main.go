@@ -115,11 +115,13 @@ func main() {
 		if resp.StatusCode != http.StatusOK {
 			errCount++
 			fmt.Printf("failed to send request %s\n", err)
+			continue
 		}
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			errCount++
 			fmt.Printf("failed to parse response %s\n", err)
+			continue
 		}
 		ss := makeServerStats(strings.Split(string(body), ","), ServerStats{})
 		// fmt.Println(ss)
